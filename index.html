@@ -44,6 +44,19 @@
             width: auto;
             height: auto;
             object-fit: cover;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none;
+            -webkit-user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            .screen-bg img {
+                pointer-events: auto;
+                user-select: auto;
+                -webkit-user-drag: auto;
+                -webkit-user-select: auto;
+            }
         }
 
         .screen-bg.fade-out {
