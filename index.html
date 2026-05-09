@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coming Soon</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            background: #07121f;
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: #ffffff;
+        }
+
+        .screen-bg {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-x pan-y;
+            z-index: 1;
+            opacity: 1;
+            transition: opacity 1.1s ease;
+            background: #07121f;
+        }
+
+        .screen-bg img {
+            display: block;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .screen-bg.fade-out {
+            opacity: 0;
+        }
+
+        .coming-soon {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            color: #ffffff;
+            font-family: Georgia, serif;
+            font-weight: 700;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            text-align: center;
+            letter-spacing: 0.16em;
+            opacity: 0;
+            transition: opacity 1s ease, transform 1s ease;
+            z-index: 2;
+            pointer-events: none;
+            text-shadow: 0 28px 90px rgba(0, 0, 0, 0.45);
+        }
+
+        .coming-soon.visible {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .scroll-hint {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .page-spacer {
+            width: 100%;
+            min-height: 220vh;
+            z-index: 0;
+        }
+
+        .scroll-sentinel {
+            position: absolute;
+            top: 120vh;
+            width: 100%;
+            height: 1px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="screen-bg">
+        <img src="screen.jpeg" alt="Crew360 preview screen" onerror="this.onerror=null; this.src='screen.jpeg';" />
+    </div>
+    <div class="coming-soon" id="comingSoon">Coming Soon</div>
+    <div class="scroll-hint">Scroll down</div>
+    <div class="page-spacer">
+        <div class="scroll-sentinel" id="sentinel"></div>
+    </div>
+
+    <script>
+        const sentinel = document.getElementById('sentinel');
+        const comingSoon = document.getElementById('comingSoon');
+        const screenBg = document.querySelector('.screen-bg');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    comingSoon.classList.add('visible');
+                    screenBg.classList.add('fade-out');
+                } else {
+                    comingSoon.classList.remove('visible');
+                    screenBg.classList.remove('fade-out');
+                }
+            });
+        }, {
+            root: null,
+            threshold: 0.1
+        });
+
+        observer.observe(sentinel);
+    </script>
+</body>
+
+</html>
